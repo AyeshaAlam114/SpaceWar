@@ -66,4 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969b14922a5e02b44ada39ed1010dff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 7007848737803579116}
   myAvatar: {fileID: 0}
+  myTeam: 0

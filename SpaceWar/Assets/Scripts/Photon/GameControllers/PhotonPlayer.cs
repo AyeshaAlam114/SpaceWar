@@ -6,25 +6,61 @@ using UnityEngine;
 
 public class PhotonPlayer : MonoBehaviour
 {
-    private PhotonView PV;
+    public PhotonView PV;
     public GameObject myAvatar;
+    public int myTeam;
 
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        int spawnPicker = Random.Range(0, GameSetUp.GS.spawnPoints.Length);
         if (PV.IsMine)
         {
-           myAvatar= PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), 
-                GameSetUp.GS.spawnPoints[spawnPicker].position, 
-                GameSetUp.GS.spawnPoints[spawnPicker].rotation, 0);
+            PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
         }
+
+    }
+    [PunRPC]
+    void RPC_GetTeam()
+    {
+        myTeam = GameSetUp.GS.nextPlayersTeam;
+        GameSetUp.GS.UpdateTeam();
+        PV.RPC("RPC_SentTeam", RpcTarget.OthersBuffered, myTeam);
+    }
+
+    [PunRPC]
+    void RPC_SentTeam(int whichTeam)
+    {
+        myTeam = whichTeam;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (myAvatar == null && myTeam!=0)
+        {
+            if (myTeam == 1)
+            {
+                int spawnPicker = Random.Range(0, GameSetUp.GS.spawnPointsTeamOne.Length);
+                if (PV.IsMine)
+                {
+                    myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"),
+                         GameSetUp.GS.spawnPointsTeamOne[spawnPicker].position,
+                         GameSetUp.GS.spawnPointsTeamOne[spawnPicker].rotation, 0);
+                }
+            }
+            else
+            {
+                int spawnPicker = Random.Range(0, GameSetUp.GS.spawnPointsTeamTwo.Length);
+                if (PV.IsMine)
+                {
+                    myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"),
+                         GameSetUp.GS.spawnPointsTeamTwo[spawnPicker].position,
+                         GameSetUp.GS.spawnPointsTeamTwo[spawnPicker].rotation, 0);
+                }
+
+            }
+        }
+
     }
 }

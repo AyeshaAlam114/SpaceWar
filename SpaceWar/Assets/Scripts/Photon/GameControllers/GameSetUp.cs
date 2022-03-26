@@ -9,7 +9,11 @@ public class GameSetUp : MonoBehaviour
 {
     public static GameSetUp GS;
     public Text healthDisplay;
-    public Transform[] spawnPoints;
+
+    public int nextPlayersTeam;
+
+    public Transform[] spawnPointsTeamOne;
+    public Transform[] spawnPointsTeamTwo;
 
     private void OnEnable()
     {
@@ -31,6 +35,18 @@ public class GameSetUp : MonoBehaviour
        while(PhotonNetwork.InRoom)
             yield return null;
         SceneManager.LoadScene(MultiplayerSettings.multiplayerSettings.menuScene);
+    }
+
+    public void UpdateTeam()
+    {
+        if (nextPlayersTeam == 1)
+        {
+            nextPlayersTeam = 2;
+        }
+        else
+        {
+            nextPlayersTeam = 1;
+        }
     }
 
     // Start is called before the first frame update
