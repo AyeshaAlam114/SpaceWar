@@ -7,15 +7,15 @@ public class PlayerMovement : MonoBehaviour
 {
     //public CharacterController controller;
     //public float speed = 12f;
-    //public float gravity = -9.81f;
-    //public float jumpHeight = 3f;
+    public float gravity = -9.81f;
+    public float jumpHeight = 3f;
 
-    //public Transform groundCheck;
-    //public float groundDistance = 0.4f;
-    //public LayerMask groundMask;
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
 
-    //Vector3 velocity;
-    //bool isGrounded;
+    Vector3 velocity;
+    bool isGrounded;
 
 
     private PhotonView PV;
@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         myCC = GetComponent<CharacterController>();
+        groundCheck = transform.GetChild(1).transform.GetChild(0).transform;
+
     }
 
     void BasicMovement()
@@ -56,13 +58,28 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * rotationSpeed;
         transform.Rotate(new Vector3(0, mouseX, 0));
     }
+    void Jump()
+    {
+        Debug.Log("1");
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            Debug.Log("2");
+            velocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
+            velocity.y += gravity * Time.deltaTime;
+            myCC.Move(velocity * Time.deltaTime);
+        }
+
+        
+    }
 
     private void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (PV.IsMine)
         {
             BasicMovement();
             BasicRotation();
+            Jump();
         }
     }
 
@@ -101,14 +118,5 @@ public class PlayerMovement : MonoBehaviour
     //    Vector3 move = transform.right * xPosition + transform.forward * zPosition;
     //    controller.Move(move * speed * Time.deltaTime);
     //}
-    //void Jump()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-    //    {
-    //        velocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
-    //    }
-
-    //    velocity.y += gravity * Time.deltaTime;
-    //    controller.Move(velocity * Time.deltaTime);
-    //}
+   
 }
