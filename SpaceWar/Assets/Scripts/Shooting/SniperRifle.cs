@@ -30,11 +30,11 @@ public class SniperRifle : Gun
         //gun cartrige reload method
     }
 
-    public override void Range()
-    {
-        //set zoom range for magnification 
-        RearSight(120);
-    }
+    //public override void Range()
+    //{
+    //    //set zoom range for magnification 
+    //    RearSight(120);
+    //}
     public void BeamFire()
     {
 

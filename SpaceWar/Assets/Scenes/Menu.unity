@@ -3168,7 +3168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayStart: 0
-  maxPlayers: 2
+  maxPlayers: 4
   menuScene: 0
   multiplayerScene: 1
 --- !u!4 &1040175388

@@ -10,7 +10,7 @@ public class Gun : BulletSpawner
 
    // int bulletForce = 50;
     int bulletLimit;
-    int zoomRange;
+    //int zoomRange;
 
     string gunId;
     string gunName;
@@ -104,15 +104,15 @@ public class Gun : BulletSpawner
     }
 
 
-    public virtual void Range()
-    {
-        RearSight(100);
-    }
+    //public virtual void Range()
+    //{
+    //    RearSight(100);
+    //}
 
-    public virtual void RearSight(int zoom)
-    {
-        zoomRange = zoom;
-        //zoom area according to zoom range.
-    }
+    //public virtual void RearSight(int zoom)
+    //{
+    //    zoomRange = zoom;
+    //    //zoom area according to zoom range.
+    //}
 
 }

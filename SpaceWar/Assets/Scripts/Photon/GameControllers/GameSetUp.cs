@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameSetUp : MonoBehaviour
 {
     public static GameSetUp GS;
-    public Text healthDisplay;
+    public Text healthDisplay; /////////////////////sir se puchna h
 
     public int nextPlayersTeam;
 

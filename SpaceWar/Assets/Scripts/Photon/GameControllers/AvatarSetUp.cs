@@ -36,6 +36,10 @@ public class AvatarSetUp : MonoBehaviour
     {
         characterValue = whichCharacter;
         myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
+        GetComponent<GunsFactory>().SetPlayer(this.GetComponent<CharacterHandler>());
+
+        Debug.Log("RPC_Add Character");
+        GetComponent<CharacterHandler>().gunPosition.GetComponent<GunAvatarSetUp>().AddGun(0);
 
     }
     // Update is called once per frame

@@ -6,7 +6,7 @@ public class BulletSpawner : MonoBehaviour
 {
     GameObject SpawnedBullet;
     GameObject gun;
-    CharacterController character;
+    CharacterHandler character;
     GameObject bulletPrefab=null;
 
     public GameObject GetBulletPrefab()
@@ -29,7 +29,7 @@ public class BulletSpawner : MonoBehaviour
     }
     void ShootBullet()
     {
-        SpawnedBullet.GetComponent<Rigidbody>().AddForce(gun.transform.forward * 20, ForceMode.Impulse);
+        SpawnedBullet.GetComponent<Rigidbody>().AddForce(gun.transform.forward * 60, ForceMode.Impulse);
     }
 
 
@@ -42,7 +42,7 @@ public class BulletSpawner : MonoBehaviour
 
   
 
-    public void SetCharacter(CharacterController Character)
+    public void SetCharacter(CharacterHandler Character)
     {
         character = Character;
     }

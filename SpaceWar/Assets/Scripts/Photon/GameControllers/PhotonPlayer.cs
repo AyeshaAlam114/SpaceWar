@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using TMPro;
 
 public class PhotonPlayer : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class PhotonPlayer : MonoBehaviour
                     myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"),
                          GameSetUp.GS.spawnPointsTeamOne[spawnPicker].position,
                          GameSetUp.GS.spawnPointsTeamOne[spawnPicker].rotation, 0);
+                    myAvatar.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Team 1";
+                    myAvatar.GetComponent<CharacterHandler>().myTeam = 1;
                 }
             }
             else
@@ -57,6 +60,8 @@ public class PhotonPlayer : MonoBehaviour
                     myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"),
                          GameSetUp.GS.spawnPointsTeamTwo[spawnPicker].position,
                          GameSetUp.GS.spawnPointsTeamTwo[spawnPicker].rotation, 0);
+                    myAvatar.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Team 2";
+                    myAvatar.GetComponent<CharacterHandler>().myTeam = 2;
                 }
 
             }

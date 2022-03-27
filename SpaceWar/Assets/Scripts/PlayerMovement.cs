@@ -2,8 +2,9 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour//CharacterHandler
 {
     //public CharacterController controller;
     //public float speed = 12f;
@@ -24,12 +25,20 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
     public float rotationSpeed;
 
+    public Text healthDisplay;
+    CharacterHandler myChar;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         myCC = GetComponent<CharacterController>();
-        groundCheck = transform.GetChild(1).transform.GetChild(0).transform;
+        groundCheck = transform.GetChild(3).transform.GetChild(0).transform;
+        //GunsFactory.GF.SetPlayer(this);
+        //GunsFactory.GF.GetGun(GunType.ShotGun);
+        healthDisplay = GameSetUp.GS.healthDisplay;
+        myChar = GetComponent<CharacterHandler>();
+
+
 
     }
 
@@ -60,10 +69,10 @@ public class PlayerMovement : MonoBehaviour
     }
     void Jump()
     {
-        Debug.Log("1");
+       // Debug.Log("1");
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            Debug.Log("2");
+           // Debug.Log("2");
             velocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
             velocity.y += gravity * Time.deltaTime;
             myCC.Move(velocity * Time.deltaTime);
@@ -71,15 +80,49 @@ public class PlayerMovement : MonoBehaviour
 
         
     }
+   
+ 
+    [PunRPC]
+    void RPC_Shooting()
+    {
+        if (myChar.GetActivatedGun() != null)
+        {
+            myChar.AttackByGun();
+        }
+        
+    }
+
+    public void HealthUpdate(int health)
+    {
+        healthDisplay.text = health.ToString();
+    }
+    [PunRPC]
+    void RPC_ChangeGun()
+    {
+        if (Input.GetKeyDown("1"))
+            this.GetComponent<GunsFactory>().GetGun(Gun.GunType.ShotGun);
+        if (Input.GetKeyDown("2"))
+            this.GetComponent<GunsFactory>().GetGun(Gun.GunType.SniperRifle);
+        if (Input.GetKeyDown("3"))
+            this.GetComponent<GunsFactory>().GetGun(Gun.GunType.MachineGun);
+
+    }
 
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (PV.IsMine)
         {
+            
+            PV.RPC("RPC_ChangeGun", RpcTarget.All);
             BasicMovement();
             BasicRotation();
             Jump();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                PV.RPC("RPC_Shooting", RpcTarget.All);
+            }
         }
     }
 

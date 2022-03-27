@@ -61,7 +61,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private void CreatePlayer()
     {
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity,0);
+       // CreateGun();
     }
+
+    //private void CreateGun()
+    //{
+    //    //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkGun"), transform.position, Quaternion.identity, 0);
+    //}
+
+
 
     public override void OnDisable()
     {
