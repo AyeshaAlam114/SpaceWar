@@ -11,7 +11,7 @@ public class CharacterHandler : Gun
    // SpawnManager spawnManager;
     public GameObject activatedGun=null;
     public GameObject gunPosition;
-    public int myTeam;
+    //public int myTeam;
 
 
     // Start is called before the first frame update

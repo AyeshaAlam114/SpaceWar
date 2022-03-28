@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using TMPro;
+
 
 public class PhotonPlayer : MonoBehaviour
 {
@@ -35,6 +35,14 @@ public class PhotonPlayer : MonoBehaviour
         myTeam = whichTeam;
     }
 
+    [PunRPC]
+    void RPC_SentTeamToAvatar(int whichTeam)
+    {
+        if(myAvatar!=null)
+        myAvatar.GetComponent<PlayerMovement>().SetTeam(whichTeam);
+       // myTeam = whichTeam;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -48,8 +56,10 @@ public class PhotonPlayer : MonoBehaviour
                     myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"),
                          GameSetUp.GS.spawnPointsTeamOne[spawnPicker].position,
                          GameSetUp.GS.spawnPointsTeamOne[spawnPicker].rotation, 0);
-                    myAvatar.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Team 1";
-                    myAvatar.GetComponent<CharacterHandler>().myTeam = 1;
+                  
+                   // myAvatar.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Team 1";
+                    //myAvatar.GetComponent<PlayerMovement>().SetTeam(myTeam);
+                    PV.RPC("RPC_SentTeamToAvatar", RpcTarget.AllBuffered, myTeam);
                 }
             }
             else
@@ -60,8 +70,9 @@ public class PhotonPlayer : MonoBehaviour
                     myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"),
                          GameSetUp.GS.spawnPointsTeamTwo[spawnPicker].position,
                          GameSetUp.GS.spawnPointsTeamTwo[spawnPicker].rotation, 0);
-                    myAvatar.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Team 2";
-                    myAvatar.GetComponent<CharacterHandler>().myTeam = 2;
+                    PV.RPC("RPC_SentTeamToAvatar", RpcTarget.AllBuffered, myTeam);
+                    // myAvatar.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Team 2";
+                    // myAvatar.GetComponent<PlayerMovement>().SetTeam(myTeam);
                 }
 
             }

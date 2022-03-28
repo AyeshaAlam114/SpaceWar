@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour//CharacterHandler
 {
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour//CharacterHandler
 
     public Text healthDisplay;
     CharacterHandler myChar;
+    public TextMeshPro myTeamName;
+    public int myTeam;
 
     private void Start()
     {
@@ -37,9 +40,24 @@ public class PlayerMovement : MonoBehaviour//CharacterHandler
         //GunsFactory.GF.GetGun(GunType.ShotGun);
         healthDisplay = GameSetUp.GS.healthDisplay;
         myChar = GetComponent<CharacterHandler>();
+       
 
 
 
+    }
+
+ 
+    public void SetTeam(int teamNum)
+    {
+        myTeam = teamNum;
+        //if(PV.IsMine)
+        GetComponent<PhotonView>().RPC("RPC_SetTeam", RpcTarget.AllBuffered, myTeam);
+    }
+
+    [PunRPC]
+    void RPC_SetTeam(int teamNumber)
+    {
+        myTeamName.text = "Team - " + teamNumber.ToString();
     }
 
     void BasicMovement()
@@ -114,7 +132,7 @@ public class PlayerMovement : MonoBehaviour//CharacterHandler
         if (PV.IsMine)
         {
             
-            PV.RPC("RPC_ChangeGun", RpcTarget.All);
+            PV.RPC("RPC_ChangeGun", RpcTarget.AllBuffered);
             BasicMovement();
             BasicRotation();
             Jump();

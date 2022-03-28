@@ -49,6 +49,8 @@ MonoBehaviour:
   - RPC_GunMechanism
   - RPC_ChangeGun
   - RPC_InstantiateGun
+  - RPC_SetTeam
+  - RPC_SentTeamToAvatar
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

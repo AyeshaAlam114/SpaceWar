@@ -302,6 +302,8 @@ MonoBehaviour:
   movementSpeed: 20
   rotationSpeed: 300
   healthDisplay: {fileID: 0}
+  myTeamName: {fileID: 1267533615278929296}
+  myTeam: 0
 --- !u!114 &7896654802098687055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +319,6 @@ MonoBehaviour:
   health: 200
   activatedGun: {fileID: 0}
   gunPosition: {fileID: 6617902671701527455}
-  myTeam: 0
 --- !u!114 &1312181045745071392
 MonoBehaviour:
   m_ObjectHideFlags: 0

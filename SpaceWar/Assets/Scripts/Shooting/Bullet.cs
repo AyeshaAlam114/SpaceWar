@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     public void SetFiredFromGun(Gun gun)
     {
         firedFromGun = gun;
-        ownTeam = firedFromGun.transform.root.gameObject.GetComponent<CharacterHandler>().myTeam;
+        ownTeam = firedFromGun.transform.root.gameObject.GetComponent<PlayerMovement>().myTeam;
         avatarSetup = firedFromGun.transform.root.gameObject.GetComponent<AvatarSetUp>();
     }
     // Update is called once per frame
@@ -26,18 +26,27 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-       
-        if (ownTeam != other.gameObject.GetComponent<CharacterHandler>().myTeam && other.gameObject.CompareTag("Avatar"))           //check if the hitted object is oop team or not
+
+        
+        if (other.gameObject.CompareTag("Avatar"))
         {
-            Debug.Log("hit");
-            //other.gameObject.GetComponent<AvatarSetUp>().playerHealth -= avatarSetup.playerDamage;
-            //healthDisplay.text = avatarSetup.playerHealth.ToString();
-            int damagePower = firedFromGun.GetGunPower();
-            other.GetComponent<CharacterHandler>().GetDamage(damagePower);      //if it is from opp team then decrease other's health
-            //other.gameObject.GetComponent<CharacterHandler>().health = other.GetComponent<CharacterHandler>().health;
-            //other.gameObject.GetComponent<PlayerMovement>().HealthUpdate();
-            Destroy(gameObject);                                                //after decreasing obstacle's health destroy bullet
+            Debug.Log(ownTeam);
+            Debug.Log(other.name);
+            Debug.Log(other.gameObject.GetComponent<PlayerMovement>().myTeam);
+            Debug.Log(other.gameObject.tag);
+            if (ownTeam != other.gameObject.GetComponent<PlayerMovement>().myTeam)           //check if the hitted object is oop team or not
+            {
+                Debug.Log("hit");
+                //other.gameObject.GetComponent<AvatarSetUp>().playerHealth -= avatarSetup.playerDamage;
+                //healthDisplay.text = avatarSetup.playerHealth.ToString();
+                int damagePower = firedFromGun.GetGunPower();
+                other.GetComponent<CharacterHandler>().GetDamage(damagePower);      //if it is from opp team then decrease other's health
+                                                                                    //other.gameObject.GetComponent<CharacterHandler>().health = other.GetComponent<CharacterHandler>().health;
+                                                                                    //other.gameObject.GetComponent<PlayerMovement>().HealthUpdate();
+                Destroy(gameObject);                                                //after decreasing obstacle's health destroy bullet
+            }
         }
+       
 
     }
     //private void OnCollisionEnter(Collision collision)
